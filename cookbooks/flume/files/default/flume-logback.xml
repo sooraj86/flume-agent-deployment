@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- enabled config reload. scans every minute and reloads config in case of any changes. -->
+<configuration scan="true" packagingData="true" scanPeriod="60 seconds">
+  <property name="flume.root.log.level" value="INFO"/>
+  <property name="flume.log.dir" value="${flume.log.dir:-./logs}"/>
+  <property name="flume.log.backup.dir" value="${flume.log.backup.dir:-./logs}"/>
+
+  <!-- enabled jmx configuration so that dynamic configuration changes are possible. -->
+  <jmxConfigurator />
+  <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${flume.log.dir}/flume-${CURRENT_USER}-${HOSTNAME}.log</file>
+    <encoder>
+      <pattern>%d{dd MMM yyyy HH:mm:ss.SSS} %-5p [%t] [%class{24}.%M:%L] - %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${flume.log.backup.dir}/flume-${CURRENT_USER}-${HOSTNAME}-%d{yyyy-MM-dd, UTC}.log.gz</fileNamePattern>
+      <!-- time based log retention -->
+      <maxHistory>90</maxHistory>
+      <!-- size based log retention -->
+      <!-- <totalSizeCap>3GB</totalSizeCap> -->
+    </rollingPolicy>
+  </appender>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.err</target>
+    <encoder>
+      <pattern>%d{dd MMM yyyy HH:mm:ss.SSS} %-5p [%t] - %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.mortbay" level="INFO"/>
+  <logger name="org.apache.hadoop" level="INFO"/>
+  <logger name="org.apache.flume.lifecycle" level="INFO"/>
+  <logger name="org.apache.avro.ipc.NettyTransceiver" level="WARN"/>
+  <logger name="org.apache.hadoop.hive" level="ERROR"/>
+  <logger name="org.jboss" level="WARN"/>
+  <logger name="org.apache.kafka" level="ERROR"/>
+  <logger name="org.apache.avro.ipc" level="ERROR"/>
+
+  <root level="${flume.root.log.level}">
+    <appender-ref ref="LOGFILE"/>
+    <!-- <appender-ref ref="console"/> -->
+  </root>
+</configuration>
