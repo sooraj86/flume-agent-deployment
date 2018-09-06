@@ -106,7 +106,7 @@ template "/var/lib/jmxtrans/flume.json" do
   variables(
     :host => node['hostname'],
     :fqdn => node['fqdn'],
-    :graphitehost => node["flume_collector"]["graphitehost"],
+    :graphite_host => node["flume_collector"]["graphitehost"],
     :colo => colo
   )
 end
