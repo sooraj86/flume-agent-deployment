@@ -97,3 +97,17 @@ link "#{flumeHome}" do
   link_type :symbolic
 end
 
+
+template "/var/lib/jmxtrans/flume.json" do
+  source "flume.json.erb"
+  owner "jmxtrans"
+  group "jmxtrans"
+  mode "0644"
+  variables(
+    :host => node['hostname'],
+    :fqdn => node['fqdn'],
+    :graphitehost => node["flume_collector"]["graphitehost"],
+    :colo => colo
+  )
+end
+

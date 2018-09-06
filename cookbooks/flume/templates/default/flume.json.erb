@@ -1,0 +1,151 @@
+{
+ "servers": [
+  {
+   "numQueryThreads": 8,
+   "alias": "<%= @host %>",
+   "host": "<%= @fqdn %>",
+   "port": 2520,
+   "queries": [
+    {
+     "resultAlias": "flume.sink",
+     "obj": "org.apache.flume.sink:type=*,*",
+     "attr": [
+     ],
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name","type"
+        ],
+        "host": "<%= @graphite_host %>",
+        "port": 2003,
+        "rootPrefix": "prod.aws.app."
+       }
+      }
+     ]
+    },
+    {
+     "resultAlias": "flume.gc",
+     "obj": "java.lang:type=GarbageCollector,name=*",
+     "attr": [
+      "CollectionCount",
+      "CollectionTime"
+     ],
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name"
+        ],
+        "host": "<%= @graphite_host %>",
+        "port": 2003,
+        "rootPrefix": "prod.aws.app."
+       }
+      }
+     ]
+    },
+    {
+     "resultAlias": "flume.source",
+     "obj": "org.apache.flume.source:type=*,*",
+     "attr": [
+     ],
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name","type"
+        ],
+        "host": "<%= @graphite_host %>",
+        "port": 2003,
+        "rootPrefix": "prod.aws.app."
+       }
+      }
+     ]
+    },
+    {
+     "resultAlias": "flume.other",
+     "obj": "org.apache.flume.other:type=audit,*",
+     "attr": [
+     ],
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name","type"
+        ],
+        "host": "<%= @graphite_host %>",
+        "port": 2003,
+        "rootPrefix": "prod.aws.app."
+       }
+      }
+     ]
+    },
+    {
+     "resultAlias": "flume.interceptor",
+     "obj": "org.apache.flume.interceptor:type=*",
+     "attr": [
+      "EventReceivedCount",
+      "EventAcceptedCount",
+      "EventRejectedCount"
+     ],
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name","type"
+        ],
+        "host": "<%= @graphite_host %>",
+        "port": 2003,
+        "rootPrefix": "prod.aws.app."
+       }
+      }
+     ]
+    },
+    {
+     "resultAlias": "kafka.consumer",
+     "obj": "kafka.consumer:type=consumer-coordinator-metrics,client-id=*",
+     "attr": [
+     ],
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "client-id"
+        ],
+        "host": "<%= @graphite_host %>",
+        "port": 2003,
+        "rootPrefix": "prod.aws.app."
+       }
+      }
+     ]
+    },
+    {
+     "resultAlias": "flume.channel",
+     "obj": "org.apache.flume.channel:type=*,*",
+     "attr": [
+     ],
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name","type"
+        ],
+        "host": "<%= @graphite_host %>",
+        "port": 2003,
+        "rootPrefix": "prod.aws.app."
+       }
+      }
+     ]
+    }
+  ]
+ }
+ ]
+}
+
