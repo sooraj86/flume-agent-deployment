@@ -16,24 +16,25 @@
 # under the License.
 
 
+
+
 # The configuration file needs to define the sources, 
 # the channels and the sinks.
 # Sources, channels and sinks are defined per agent, 
 # in this case called 'agent'
 
+
 #agent.sources = seqGenSrc
 #agent.channels = memoryChannel
 #agent.sinks = loggerSink
 
+
 # For each one of the sources, the type is defined
 #agent.sources.seqGenSrc.type = seq
-
 # The channel can be defined as follows.
 #agent.sources.seqGenSrc.channels = memoryChannel
-
 # Each sink's type must be defined
 #agent.sinks.loggerSink.type = logger
-
 #Specify the channel the sink should use
 #agent.sinks.loggerSink.channel = memoryChannel
 
@@ -46,26 +47,26 @@
 #agent.channels.memoryChannel.capacity = 100
 
 
-agent.sources = avrosrc
-agent.sinks = kafkasink1 kafkasink2 kafkasink3 kafkasink4 kafkasink5
-agent.channels = avrochannel
 
-# Describe/configure Source
-agent.sources.avrosrc.type = avro
-agent.sources.avrosrc.bind = localhost
-agent.sources.avrosrc.port = 2030
-
-agent.channels.avrochannel.type = memory
-agent.channels.avrochannel.capacity = 100000
-agent.channels.avrochannel.transactionCapacity = 500
+agent.sources   = httpSource
+agent.channels  = memoryChannel
+agent.sinks     = kafkasink1 kafkasink2 kafkasink3 kafkasink4 kafkasink5
 
 
-agent.sources.avrosrc.channels.selector.type = replicating
-agent.sources.avrosrc.channels = avrochannel
+
+# Source configuration
+agent.sources.httpSource.type = http
+agent.sources.httpSource.channels = memoryChannel
+agent.sources.httpSource.port = 81
+agent.sources.httpSource.handler = org.apache.flume.source.http.JSONHandler
+
+
+
+# Sink configuration
 
 
 agent.sinks.kafkasink1.type = org.apache.flume.sink.kafka.KafkaSink
-agent.sinks.kafkasink1.channel = avrochannel
+agent.sinks.kafkasink1.channel = memoryChannel
 agent.sinks.kafkasink1.topic = test
 agent.sinks.kafkasink1.batchSize = 2000
 agent.sinks.kafkasink1.brokerList = <%= @kafkabrokers %>
@@ -73,8 +74,9 @@ agent.sinks.kafkasink1.brokerList = <%= @kafkabrokers %>
 agent.sinks.kafkasink1.kafka.producer.linger.ms = 5
 agent.sinks.kafkasink1.kafka.producer.acks = all
 
+
 agent.sinks.kafkasink2.type = org.apache.flume.sink.kafka.KafkaSink
-agent.sinks.kafkasink2.channel = avrochannel
+agent.sinks.kafkasink2.channel = memoryChannel
 agent.sinks.kafkasink2.topic = test
 agent.sinks.kafkasink2.batchSize = 2000
 agent.sinks.kafkasink2.brokerList = <%= @kafkabrokers %>
@@ -82,8 +84,9 @@ agent.sinks.kafkasink2.brokerList = <%= @kafkabrokers %>
 agent.sinks.kafkasink2.kafka.producer.linger.ms = 5
 agent.sinks.kafkasink2.kafka.producer.acks = all
 
+
 agent.sinks.kafkasink3.type = org.apache.flume.sink.kafka.KafkaSink
-agent.sinks.kafkasink3.channel = avrochannel
+agent.sinks.kafkasink3.channel = memoryChannel
 agent.sinks.kafkasink3.topic = test
 agent.sinks.kafkasink3.batchSize = 2000
 agent.sinks.kafkasink3.brokerList = <%= @kafkabrokers %>
@@ -91,8 +94,9 @@ agent.sinks.kafkasink3.brokerList = <%= @kafkabrokers %>
 agent.sinks.kafkasink3.kafka.producer.linger.ms = 5
 agent.sinks.kafkasink3.kafka.producer.acks = all
 
+
 agent.sinks.kafkasink4.type = org.apache.flume.sink.kafka.KafkaSink
-agent.sinks.kafkasink4.channel = avrochannel
+agent.sinks.kafkasink4.channel = memoryChannel
 agent.sinks.kafkasink4.topic = test
 agent.sinks.kafkasink4.batchSize = 2000
 agent.sinks.kafkasink4.brokerList = <%= @kafkabrokers %>
@@ -100,12 +104,17 @@ agent.sinks.kafkasink4.brokerList = <%= @kafkabrokers %>
 agent.sinks.kafkasink4.kafka.producer.linger.ms = 5
 agent.sinks.kafkasink4.kafka.producer.acks = all
 
+
 agent.sinks.kafkasink5.type = org.apache.flume.sink.kafka.KafkaSink
-agent.sinks.kafkasink5.channel = avrochannel
+agent.sinks.kafkasink5.channel = memoryChannel
 agent.sinks.kafkasink5.topic = test
 agent.sinks.kafkasink5.batchSize = 2000
 agent.sinks.kafkasink5.brokerList = <%= @kafkabrokers %>
 #agent.sinks.kafkasink5.requiredAcks = 1
 agent.sinks.kafkasink5.kafka.producer.linger.ms = 5
 agent.sinks.kafkasink5.kafka.producer.acks = all
+
+agent.channels.memoryChannel.type = memory
+agent.channels.memoryChannel.capacity = 100000
+agent.channels.memoryChannel.transactionCapacity = 1000
 
