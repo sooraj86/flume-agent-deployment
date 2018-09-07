@@ -111,3 +111,8 @@ template "/var/lib/jmxtrans/flume.json" do
   )
 end
 
+
+cookbook_file "/etc/supervisor/conf.d/flume.conf" do
+  source "flume-supervisor.conf"
+  mode "0644"
+end
